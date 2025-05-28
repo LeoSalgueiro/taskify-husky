@@ -4,6 +4,12 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BoardModule } from './board/board.module';
+import { TaskModule } from './task/task.module';
+import { BoardController } from './board/board.controller';
+import { BoardService } from './board/board.service';
+import { TaskController } from './task/task.controller';
+import { TaskService } from './task/task.service';
 
 @Module({
   imports: [
@@ -12,8 +18,10 @@ import { AppService } from './app.service';
     }),
     PrismaModule,
     AuthModule,
+    BoardModule,
+    TaskModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, BoardController, TaskController],
+  providers: [AppService, BoardService, TaskService],
 })
 export class AppModule {}
