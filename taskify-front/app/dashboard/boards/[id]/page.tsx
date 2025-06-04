@@ -16,6 +16,7 @@ interface Task {
   title: string;
   description?: string;
   columnId: string;
+  status: string;
 }
 
 interface Board {
@@ -71,7 +72,10 @@ export default function BoardPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title: newColumnTitle }),
+        body: JSON.stringify({ 
+          title: newColumnTitle,
+          order: board?.columns.length || 0 
+        }),
       });
 
       if (!response.ok) {
@@ -98,13 +102,17 @@ export default function BoardPage() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3001/boards/${params.id}/columns/${selectedColumn.id}/tasks`, {
+      const response = await fetch(`http://localhost:3001/tasks/${selectedColumn.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          order: selectedColumn.tasks.length,
+          status: "pending"
+        }),
       });
 
       if (!response.ok) {

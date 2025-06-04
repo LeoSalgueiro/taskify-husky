@@ -33,6 +33,11 @@ export class BoardController {
     return this.boardService.getBoardWithColumns(boardId);
   }
 
+  @Get() 
+  getBoards(@GetUser('id') userId: string) {
+    return this.boardService.getBoards(userId);
+  }
+
   @Patch(':boardId')
   updateBoard(@Param('boardId') boardId: string, @Body() updateBoardDto: UpdateBoardDto) {
     return this.boardService.updateBoard(boardId, updateBoardDto);

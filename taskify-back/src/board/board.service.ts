@@ -12,8 +12,13 @@ export class BoardService {
   async createBoard(userId: string, createBoardDto: CreateBoardDto) {
     return this.prisma.board.create({
       data: {
-        ...createBoardDto,
-        userId,
+        title: createBoardDto.title,
+        description: createBoardDto.description,
+        user: {
+          connect: {
+            id: userId
+          }
+        }
       },
       include: {
         columns: true,
@@ -40,6 +45,17 @@ export class BoardService {
           },
         },
       },
+    });
+  }
+
+  async getBoards(userId: string) {
+    return this.prisma.board.findMany({
+      where: {
+        userId: userId
+      },
+      include: {
+        columns: true
+      }
     });
   }
 

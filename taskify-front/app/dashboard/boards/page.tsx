@@ -22,7 +22,9 @@ export default function BoardsPage() {
   const fetchBoards = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/boards", {
+      const {id} = JSON.parse(localStorage.getItem("user") || "{}");
+      console.log('soy el id', id)
+      const response = await fetch(`http://localhost:3001/board?userId='${id}'`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,13 +46,23 @@ export default function BoardsPage() {
   const handleCreateBoard = async (data: { title: string; description: string }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/boards", {
+      const userData = JSON.parse(localStorage.getItem("user") || "{}");
+      
+      if (!userData.id) {
+        throw new Error("No se encontró el ID del usuario");
+      }
+
+      const response = await fetch("http://localhost:3001/board", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          title: data.title,
+          description: data.description,
+          userId: userData.id
+        }),
       });
 
       if (!response.ok) {

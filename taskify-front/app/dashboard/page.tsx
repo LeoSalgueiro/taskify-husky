@@ -22,9 +22,9 @@ export default function DashboardPage() {
       href: "/dashboard",
     },
     {
-      title: "Calendario",
-      icon: Calendar,
-      href: "/dashboard/calendar",
+      title: "Tableros",
+      icon: LayoutDashboard,
+      href: "/dashboard/boards",
     },
     {
       title: "Tareas",

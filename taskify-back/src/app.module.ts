@@ -10,6 +10,7 @@ import { BoardController } from './board/board.controller';
 import { BoardService } from './board/board.service';
 import { TaskController } from './task/task.controller';
 import { TaskService } from './task/task.service';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { TaskService } from './task/task.service';
     BoardModule,
     TaskModule,
   ],
-  controllers: [AppController, BoardController, TaskController],
+  controllers: [AppController, BoardController, TaskController, AuthController],
   providers: [AppService, BoardService, TaskService],
 })
 export class AppModule {}
+ 

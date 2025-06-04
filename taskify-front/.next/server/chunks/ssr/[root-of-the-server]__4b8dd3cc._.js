@@ -315,7 +315,9 @@ function BoardsPage() {
     const fetchBoards = async ()=>{
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:3001/boards", {
+            const { id } = JSON.parse(localStorage.getItem("user") || "{}");
+            console.log('soy el id', id);
+            const response = await fetch(`http://localhost:3001/board?userId='${id}'`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -334,13 +336,21 @@ function BoardsPage() {
     const handleCreateBoard = async (data)=>{
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:3001/boards", {
+            const userData = JSON.parse(localStorage.getItem("user") || "{}");
+            if (!userData.id) {
+                throw new Error("No se encontró el ID del usuario");
+            }
+            const response = await fetch("http://localhost:3001/board", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    title: data.title,
+                    description: data.description,
+                    userId: userData.id
+                })
             });
             if (!response.ok) {
                 throw new Error("Error al crear el tablero");
@@ -362,12 +372,12 @@ function BoardsPage() {
                 className: "animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"
             }, void 0, false, {
                 fileName: "[project]/app/dashboard/boards/page.tsx",
-                lineNumber: 71,
+                lineNumber: 83,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/dashboard/boards/page.tsx",
-            lineNumber: 70,
+            lineNumber: 82,
             columnNumber: 7
         }, this);
     }
@@ -384,12 +394,12 @@ function BoardsPage() {
                             children: "Mis Tableros"
                         }, void 0, false, {
                             fileName: "[project]/app/dashboard/boards/page.tsx",
-                            lineNumber: 80,
+                            lineNumber: 92,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/dashboard/boards/page.tsx",
-                        lineNumber: 79,
+                        lineNumber: 91,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -401,7 +411,7 @@ function BoardsPage() {
                                     description: board.description
                                 }, board.id, false, {
                                     fileName: "[project]/app/dashboard/boards/page.tsx",
-                                    lineNumber: 85,
+                                    lineNumber: 97,
                                     columnNumber: 13
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$boards$2f$BoardCard$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["BoardCard"], {
@@ -409,19 +419,19 @@ function BoardsPage() {
                                 onClick: ()=>setIsModalOpen(true)
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/boards/page.tsx",
-                                lineNumber: 92,
+                                lineNumber: 104,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/dashboard/boards/page.tsx",
-                        lineNumber: 83,
+                        lineNumber: 95,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/dashboard/boards/page.tsx",
-                lineNumber: 78,
+                lineNumber: 90,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$boards$2f$CreateBoardModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CreateBoardModal"], {
@@ -430,13 +440,13 @@ function BoardsPage() {
                 onSubmit: handleCreateBoard
             }, void 0, false, {
                 fileName: "[project]/app/dashboard/boards/page.tsx",
-                lineNumber: 96,
+                lineNumber: 108,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/dashboard/boards/page.tsx",
-        lineNumber: 77,
+        lineNumber: 89,
         columnNumber: 5
     }, this);
 }
